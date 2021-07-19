@@ -1,0 +1,174 @@
+{% extends "layouts/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Trabajadores" %}{% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{% trans "Trabajadores" %}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Simple Tables</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+              <div>
+                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;{% trans "Nuevo" %}</button>
+              </div>
+                <!--h3 class="card-title">{% trans "Listado de trabajadores" %}</h3-->
+              </div>
+              
+              <div class="card-body">
+                <table class="table table-bordered table-sm">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>{% trans "Nombre completo" %}</th>
+                      <th>{% trans "Carnet" %}</th>
+                      <th>{% trans "Tipo trabajador" %}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for obj in objects %}
+                    <tr>
+                      <td>{{obj.id}}</td>
+                      <td>{{obj.get_full_name}}</td>
+                      <td>{{obj.identification}}</td>
+                      <td>{{obj.get_type_display}}</td>
+                     
+                    </tr>
+                {% empty %}
+                    <h5> {% trans "No hay trabajadores" %}</h5>
+                {% endfor %}
+                 
+                  </tbody>
+                </table>
+              </div>
+             
+              <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                </ul>
+              </div>
+            </div>
+            
+
+            
+          
+          </div>
+          </div>
+            <div class="row">
+          <!-- /.col -->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+               
+                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;{% trans "Nuevo" %}</button>
+              
+
+                <div class="card-tools">
+                  <ul class="pagination pagination-sm float-right">
+                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                  </ul>
+                </div>
+              </div>
+             
+              <div class="card-body p-0">
+                <table class="table table-bordered table-sm">
+                   <!--table class="table table-bordered table-sm"-->
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>{% trans "Nombre completo" %}</th>
+                      <th>{% trans "Carnet" %}</th>
+                      <th>{% trans "Tipo trabajador" %}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for obj in objects %}
+                    <tr>
+                      <td>{{obj.id}}</td>
+                      <td>{{obj.get_full_name}}</td>
+                      <td>{{obj.identification}}</td>
+                      <td>{{obj.get_type_display}}</td>
+                     
+                    </tr>
+                {% empty %}
+                    <h5> {% trans "No hay trabajadores" %}</h5>
+                {% endfor %}
+                 
+                  </tbody>
+                </table>
+                </table>
+              </div>
+             
+            </div>
+         
+          </div>
+          </div>
+          <!-- /.col -->
+        </div>
+
+        <!--  -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+
+{% endblock javascripts %}
