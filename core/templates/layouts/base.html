@@ -20,6 +20,8 @@
 
     {% include 'includes/sidebar.html' %}
 
+      <div class="modal fade" id="popup"></div>
+      
     {% block content %}{% endblock content %}
 
     {% include 'includes/footer.html' %}
@@ -34,7 +36,57 @@
 <!-- ./wrapper -->
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+<script>
+    function abrir_modal(url)
+    {
+
+      $("#popup").load(url, function(){
+        $(this).modal({
+          backdrop:'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      });
+      return false;
+    }
+
+    function cerrar_modal()
+    {
+      $('#popup').modal('hide');
+      return false;
+    }
+
+    function mensaje(msg,color='green')
+    {
+      if (color=="success")
+      {
+        color="green";
+      }
+      if (color=="error")
+      {
+        color="red";
+      }
+
+
+      $.alert({
+        title:'',
+        theme:'material',
+        type:color,
+        content:msg
+      });
+    }
+
+    {% if messages %}
+      {% for message in messages %}
+        console.log("{{ message.tags }}");
+        mensaje("{{ message }}","{{ message.tags }}");
+      {% endfor %}
+    {% endif %}
+
+  </script>
+{% block javascripts %}
+
+{% endblock javascripts %}
 
 </body>
 </html>

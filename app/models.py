@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
+from django.core.validators import MinValueValidator, RegexValidator
 
 class BaseModel(models.Model):
     """
@@ -32,7 +33,7 @@ class PersonModel(BaseModel):
     surname1 = models.CharField(verbose_name=_("Primer apellido"), max_length=50,  blank=False, null=False)
     surname2 = models.CharField(verbose_name=_("Segundo apellido"), max_length=50,  blank=False, null=False)
 
-    identification = models.CharField(verbose_name=_("Carnet"), max_length=11,  blank=False, null=False)
+    identification = models.CharField(verbose_name=_("Carnet"), max_length=11, unique=True, blank=False, null=False,validators=[RegexValidator(regex=r"(^[\d]{11}$)", message=_("El carnet debe contener 11 dígitos"))])
     
     birthday_date =  models.DateField(verbose_name=_("Fecha de nacimiento"),  blank=False, null=False)
 
@@ -77,7 +78,7 @@ class WorkerModel(PersonModel):
         ('contract', _('Contrato')),    
     )
     type =  models.CharField(verbose_name=_("Tipo trabajador"), max_length=50, choices=WORKER_TYPE_CHOICES )
-    
+    is_social_service = models.BooleanField(_('Servicio social'), default=False)    
 
     class Meta:
         db_table = 'app_worker'

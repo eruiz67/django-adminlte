@@ -1,0 +1,215 @@
+{% extends "layouts/base.html" %}
+{% load i18n %}
+{% block title %} Tables {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{% trans "Detalles" %}</h1>
+            {{obj.get_full_name}}
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'app:home' %}">{% trans "Principal" %}</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'app:worker_list' %}">{% trans "Trabajadores" %}</a></li>
+              <li class="breadcrumb-item active">{{obj.get_full_name}}</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+         
+          <!-- /.col -->
+          <div class="col-md-12">
+          <form  action = "{% url 'app:worker_detail' obj.id %}" method = "post"  enctype="multipart/form-data" method="post">
+              {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+              <a href="{% url 'app:worker_list' %}" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;{% trans "Atrás" %}</a>
+              <a href="{% url 'app:worker_create'%}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;{% trans 'Crear' %}</a>
+              <a href="{% url 'app:worker_update' obj.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;&nbsp;{% trans 'Editar' %}</a>
+              
+              {% if obj.active %}
+              <button type="submit" class="btn btn-primary btn-large btn-sm m-b-xm float-right"><i class="fa fa-archive"></i>&nbsp;&nbsp;{% trans 'Archivar' %}</button>
+              {% else %}
+              <button type="submit" class="btn btn-outline-primary btn-large btn-sm m-b-xm float-right"><i class="fa fa-archive"></i>&nbsp;&nbsp;{% trans 'Activar' %}</button>
+
+              {% endif %}
+              </form>
+               <button type="button" class="btn btn-danger btn-sm" onclick="return abrir_modal('{% url 'app:worker_delete' obj.id %}')"><i class="fas fa-trash-alt">&nbsp;&nbsp;</i>{% trans "Eliminar" %}</button>
+              <!--button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>&nbsp;&nbsp;{% trans "Borrar" %}</button-->
+              <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm">{% trans "Imprimir" %}</button>
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="#">{% trans "Listado" %}</a>
+                      <a class="dropdown-item" href="#">{% trans "Reporte" %}</a>
+                      <a class="dropdown-item" href="#">{% trans "Ficha del trabajador" %}</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">{% trans "Resumen" %}</a>
+                    </div>
+                  </div>
+
+             
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-2">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                      <div class="card-header">
+                        <h3 class="card-title">{% trans "Datos generales" %}</h3>
+
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                        <!-- /.card-tools -->
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-3">
+                              <div class="form-group">
+                                  <h6><b>{% trans 'Nombre' %}</b></h6>
+                                  {% firstof obj.name|default_if_none:"" %}
+                              </div>
+                          </div>
+                          <div class="col-lg-3">
+                              <div class="form-group">
+                                  <h6><b>{% trans 'Primer apellido' %}</b></h6>
+                                  {% firstof obj.surname1|default_if_none:"" %}
+                              </div>
+                          </div>
+                          <div class="col-lg-3">
+                              <div class="form-group">
+                                  <h6><b>{% trans 'Segundo apellido' %}</b></h6>
+                                  {% firstof obj.surname2|default_if_none:"" %}
+                              </div>
+                          </div>
+                          <div class="col-lg-3">
+                              <div class="form-group">
+                                  <h6><b>{% trans 'Cédula' %}</b></h6>
+                                  {% firstof obj.identification|default_if_none:"" %}
+                              </div>
+                          </div>
+                        </div>
+                         <!-- /.row -->
+                         <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <h6><b>{% trans 'Fecha nacimiento' %}</b></h6>
+                                    {% firstof obj.birthday_date|date:"d/m/Y" %}
+                                </div>
+                            </div>
+                              
+                        </div>
+                         <!-- /.row -->
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <div class="row ">
+                  <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                      <div class="card-header">
+                        <h3 class="card-title">{% trans "Datos del trabajador" %}</h3>
+
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                        <!-- /.card-tools -->
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-3">
+                              <div class="form-group">
+                                  <h6><b>{% trans 'Tipo' %}</b></h6>
+                                  {% firstof obj.get_type_display|default_if_none:"" %}
+                              </div>
+                          </div>
+                          <div class="col-lg-3">
+                                <div class="form-group">
+                                    <h6><b>{% trans 'Servicio social' %}</b></h6>
+                                    {{ obj.is_social_service |yesno:_("SI,NO")}}
+                                </div>
+                            </div>
+                          
+                        </div>
+                         <!-- /.row -->
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+          </div>
+          <!-- /.col -->
+        </div>
+
+        <!--  -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+
+  
+
+{% endblock javascripts %}

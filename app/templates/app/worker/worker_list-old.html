@@ -1,0 +1,222 @@
+{% extends "layouts/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Trabajadores" %}{% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{% trans "Trabajadores" %}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Simple Tables</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!--div class="row">
+
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+              <div>
+                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;{% trans "Nuevo" %}</button>
+              </div>
+               
+              </div>
+              
+              <div class="card-body">
+                <table class="table table-bordered table-sm">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>{% trans "Nombre completo" %}</th>
+                      <th>{% trans "Carnet" %}</th>
+                      <th>{% trans "Tipo trabajador" %}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for obj in objects %}
+                    <tr>
+                      <td>{{obj.id}}</td>
+                      <td>{{obj.get_full_name}}</td>
+                      <td>{{obj.identification}}</td>
+                      <td>{{obj.get_type_display}}</td>
+                     
+                    </tr>
+                {% empty %}
+                    <h5> {% trans "No hay trabajadores" %}</h5>
+                {% endfor %}
+                 
+                  </tbody>
+                </table>
+              </div>
+             
+              <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                </ul>
+              </div>
+            </div>
+            
+
+            
+          
+          </div>
+        </div-->
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+               
+                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;{% trans "Nuevo" %}</button>
+               <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm">{% trans "Imprimir" %}</button>
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="#">{% trans "Listado" %}</a>
+                      <a class="dropdown-item" href="#">{% trans "Reporte" %}</a>
+                      <a class="dropdown-item" href="#">{% trans "Ficha del trabajador" %}</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">{% trans "Resumen" %}</a>
+                    </div>
+                  </div>
+
+                <div class="card-tools">
+                  <ul class="pagination pagination-sm float-right">
+                    <!--li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li-->
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ 1 }}" aria-label="1...">
+                                <span aria-hidden="true">{% trans 'Página 1' %}</span>
+                                <span class="sr-only">1...</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">{% trans 'Anterior' %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for pr in paginator_rows %}
+                        {% if pr == page_obj.number %}
+                            <li class="page-item active"><a class="page-link" href="?page={{ pr }}">{{ pr }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ pr }}">{{ pr }}</a></li>
+                        {% endif %}
+
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">{% trans 'Siguiente' %}</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="1...">
+                                <span aria-hidden="true">{% trans 'Página' %} {{ page_obj.paginator.num_pages }}</span>
+                                <span class="sr-only">{{ page_obj.paginator.num_pages }}...</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+             
+              <div class="card-body p-0">
+                <table class="table table-bordered table-sm">
+                   <!--table class="table table-bordered table-sm"-->
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>{% trans "Nombre completo" %}</th>
+                      <th>{% trans "Carnet" %}</th>
+                      <th>{% trans "Tipo trabajador" %}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for obj in objects %}
+                    <tr>
+                      <td>{{obj.id}}</td>
+                      <td>{{obj.get_full_name}}</td>
+                      <td>{{obj.identification}}</td>
+                      <td>{{obj.get_type_display}}</td>
+                     
+                    </tr>
+                {% empty %}
+                    <h5> {% trans "No hay trabajadores" %}</h5>
+                {% endfor %}
+                 
+                  </tbody>
+                </table>
+               
+              </div>
+             
+            </div>
+         
+          </div>
+          </div>
+          <!-- /.col -->
+        </div>
+
+        <!--  -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+
+{% endblock javascripts %}
