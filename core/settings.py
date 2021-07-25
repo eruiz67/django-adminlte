@@ -12,6 +12,8 @@ import dj_database_url
 BASE_DIR = Path(__file__).parent
 CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
@@ -30,7 +32,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'  # Enable the inner app 
+    'app',  # Enable the inner app 
+    'django_select2',
+
 ]
 
 MIDDLEWARE = [
@@ -123,3 +127,28 @@ STATICFILES_DIRS = (
 )
 #############################################################
 #############################################################
+MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    'select2': {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# Set the cache backend to select2
+SELECT2_CACHE_BACKEND = 'select2'
+SELECT2_JS  = '/static/assets/plugins/select2/works/select2.works.full.min.js'
+SELECT2_CSS = '/static/assets/plugins/select2/works/select2.works.min.css'
+#SELECT2_I18N_PATH = '/static/assets/plugins/select2/js/i18n'
